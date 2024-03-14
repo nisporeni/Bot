@@ -1,0 +1,27 @@
+name: Run Bot every 30 minutes
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Runs the script every 30 minutes
+
+jobs:
+  run_script:
+    name: Run Stellar Script
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install stellar-sdk gspread oauth2client
+
+    - name: Run Python script
+      run: |
+        python main.py > status.log
